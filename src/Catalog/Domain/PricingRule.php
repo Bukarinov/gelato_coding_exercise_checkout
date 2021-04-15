@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Domain\Entity;
+namespace Catalog\Domain;
 
 class PricingRule
 {

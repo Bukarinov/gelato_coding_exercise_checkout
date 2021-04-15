@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Domain\Service;
+namespace Catalog\Application;
 
-use Catalog\Domain\Entity\Item;
-use Catalog\Domain\Entity\PricingRule;
+use Catalog\Domain\Item;
+use Catalog\Domain\PricingRule;
 
 class CheckOut
 {
