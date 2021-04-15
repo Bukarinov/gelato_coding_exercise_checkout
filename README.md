@@ -5,14 +5,12 @@ An implementation for a supermarket checkout that calculates the total price of 
 
 ## Usage guide
 
-### Docker
-
-First run
+### First run
 ```bash
-cd docker/ && docker-compose up
+./bin/run-dev
 ```
 
-Run any script
+### Run tests
 ```bash
-docker run --rm gelato_coding_exercise_checkout_php-cli php -v
+./bin/run-tests
 ```
