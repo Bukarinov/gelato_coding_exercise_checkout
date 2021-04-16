@@ -9,7 +9,7 @@ class ItemTest extends TestCase
 {
     public function test_GivenSkuAndPrice_ObjectIsCreatedSuccessfully()
     {
-        $item = new Item(sku: 'A', price: 42);
+        $item = new Item(sku: 'A', price: 42.0);
 
         $this->assertInstanceOf(
             Item::class,
@@ -22,7 +22,7 @@ class ItemTest extends TestCase
         );
 
         $this->assertEquals(
-            42,
+            42.0,
             $item->getPrice()
         );
     }
@@ -45,6 +45,6 @@ class ItemTest extends TestCase
     {
         $this->expectException(\ArgumentCountError::class);
 
-        new Item(price: 42);
+        new Item(price: 42.0);
     }
 }

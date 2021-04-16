@@ -11,7 +11,7 @@ class PricingRuleTest extends TestCase
     public function test_GivenItemAndCountAndPrice_ObjectIsCreatedSuccessfully()
     {
         $item = $this->createMock(Item::class);
-        $pricingRule = new PricingRule(item: $item, count: 2, price: 42);
+        $pricingRule = new PricingRule(item: $item, count: 2, price: 42.0);
 
         $this->assertInstanceOf(
             PricingRule::class,
@@ -29,7 +29,7 @@ class PricingRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            42,
+            42.0,
             $pricingRule->getPrice()
         );
     }
@@ -65,6 +65,6 @@ class PricingRuleTest extends TestCase
 
         $this->expectException(\ArgumentCountError::class);
 
-        new PricingRule(price: 42);
+        new PricingRule(price: 42.0);
     }
 }
