@@ -8,11 +8,6 @@ use Catalog\Domain\PricingRule;
 class CheckOut
 {
     /**
-     * @param PricingRule[]
-     */
-    private array $pricingRules = [];
-
-    /**
      * @var array
      */
     private array $pricingRulesHashMap = [];
@@ -22,18 +17,13 @@ class CheckOut
      */
     private array $itemsHashMap = [];
 
+    /**
+     * @param PricingRule ...$pricingRules
+     * @throws DuplicateRulesException
+     */
     public function __construct(PricingRule ...$pricingRules)
     {
-        $this->pricingRules = $pricingRules;
         $this->pricingRulesHashMap = self::createPricingRulesHashMap(...$pricingRules);
-    }
-
-    /**
-     * @return PricingRule[]
-     */
-    public function getPricingRules(): array
-    {
-        return $this->pricingRules;
     }
 
     public function scan(Item $item): self
@@ -52,7 +42,9 @@ class CheckOut
             $sameItemsCount = count($items);
 
             if (isset($this->pricingRulesHashMap[$sku][$sameItemsCount])) {
-                $total += $this->pricingRulesHashMap[$sku][$sameItemsCount];
+                /* @var PricingRule $pricingRule */
+                $pricingRule = $this->pricingRulesHashMap[$sku][$sameItemsCount];
+                $total += $pricingRule->getPrice();
             } else {
                 // @TODO What a shame! Fix it by using collection object
                 $item = $items[0];
@@ -63,15 +55,24 @@ class CheckOut
         return $total;
     }
 
+    /**
+     * @param PricingRule ...$pricingRules
+     * @return array
+     * @throws DuplicateRulesException
+     */
     static private function createPricingRulesHashMap(PricingRule ...$pricingRules): array
     {
         $pricingRulesHashMap = [];
 
         foreach ($pricingRules as $pricingRule) {
-            $sku = $pricingRule->getItem()->getSku();
+            $sku = $pricingRule->getSku();
             $count = $pricingRule->getCount();
 
-            $pricingRulesHashMap[$sku][$count] = $pricingRule->getPrice();
+            if (isset($pricingRulesHashMap[$sku][$count])) {
+                throw new DuplicateRulesException($pricingRule);
+            }
+
+            $pricingRulesHashMap[$sku][$count] = $pricingRule;
         }
 
         return $pricingRulesHashMap;
