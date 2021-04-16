@@ -6,4 +6,4 @@ services:
     build:
       context: php-cli
     volumes:
-      - ./../src/:/var/www
+      - ./../:/var/www
