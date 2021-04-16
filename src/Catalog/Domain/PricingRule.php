@@ -9,4 +9,19 @@ class PricingRule
         private int $count,
         private float $price,
     ) {}
+
+    public function getItem(): Item
+    {
+        return $this->item;
+    }
+
+    public function getCount(): int
+    {
+        return $this->count;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
 }
