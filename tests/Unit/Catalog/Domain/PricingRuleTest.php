@@ -34,6 +34,13 @@ class PricingRuleTest extends TestCase
         );
     }
 
+    public function test_GivenNothing_ThrownException()
+    {
+        $this->expectException(\ArgumentCountError::class);
+
+        new PricingRule();
+    }
+
     public function test_GivenItemOnly_ThrownException()
     {
         $item = $this->createMock(Item::class);

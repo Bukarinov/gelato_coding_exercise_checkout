@@ -27,6 +27,13 @@ class ItemTest extends TestCase
         );
     }
 
+    public function test_GivenNothing_ThrownException()
+    {
+        $this->expectException(\ArgumentCountError::class);
+
+        new Item();
+    }
+
     public function test_GivenSkuOnly_ThrownException()
     {
         $this->expectException(\ArgumentCountError::class);
