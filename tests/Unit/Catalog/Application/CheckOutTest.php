@@ -147,6 +147,45 @@ class CheckOutTest extends TestCase
         );
     }
 
+    public function test_ScanTwoSameItemsAndAddSeveralPricingRules_TotalAndPriceFromAppropriatePricingRulesAreEqual()
+    {
+        $itemA = $this->createMockItem(sku: 'A', price: 50.0);
+
+        $pricingRuleA1 = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
+        $pricingRuleA2 = $this->createMockPricingRule(item: $itemA, count: 2, price: 90.0);
+
+        $checkOut = new CheckOut($pricingRuleA1, $pricingRuleA2);
+        $checkOut
+            ->scan($itemA)
+            ->scan($itemA)
+        ;
+
+        $this->assertEquals(
+            90.0,
+            $checkOut->total()
+        );
+    }
+
+    public function test_ScanThreSameItemsAndAddSeveralPricingRules_TotalAndPriceFromAppropriatePricingRulesAreEqual()
+    {
+        $itemA = $this->createMockItem(sku: 'A', price: 50.0);
+
+        $pricingRuleA1 = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
+        $pricingRuleA2 = $this->createMockPricingRule(item: $itemA, count: 2, price: 90.0);
+
+        $checkOut = new CheckOut($pricingRuleA1, $pricingRuleA2);
+        $checkOut
+            ->scan($itemA)
+            ->scan($itemA)
+            ->scan($itemA)
+        ;
+
+        $this->assertEquals(
+            130.0,
+            $checkOut->total()
+        );
+    }
+
     private function createMockItem(string $sku, float $price): MockObject|Item
     {
         $item = $this->createMock(Item::class);
