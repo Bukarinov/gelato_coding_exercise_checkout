@@ -1,0 +1,5 @@
+default:
+  suites:
+    catalog_features:
+      paths: [ tests/Behat/Catalog/Application/features ]
+      contexts: [ Test\Behat\Catalog\Application\FeatureContext ]
