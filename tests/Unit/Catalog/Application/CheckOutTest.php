@@ -60,7 +60,7 @@ class CheckOutTest extends TestCase
     public function test_ScanSameItemsAndAddPricingRules_TotalAndPriceFromPricingRulesAreEqual()
     {
         $item = $this->createMockItem(sku: 'A', price: 50.0);
-        $pricingRule = $this->createMockPricingRule(item: $item, count: 3, price: 130.0);
+        $pricingRule = $this->createMockPricingRule('A', count: 3, price: 130.0);
 
         $checkOut = new CheckOut($pricingRule);
         $checkOut
@@ -82,8 +82,8 @@ class CheckOutTest extends TestCase
         $itemC = $this->createMockItem(sku: 'C', price: 20.0);
         $itemD = $this->createMockItem(sku: 'D', price: 15.0);
 
-        $pricingRuleA = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
-        $pricingRuleB = $this->createMockPricingRule(item: $itemB, count: 2, price: 45.0);
+        $pricingRuleA = $this->createMockPricingRule('A', count: 3, price: 130.0);
+        $pricingRuleB = $this->createMockPricingRule('B', count: 2, price: 45.0);
 
         $checkOut = new CheckOut($pricingRuleA, $pricingRuleB);
         $checkOut
@@ -107,8 +107,8 @@ class CheckOutTest extends TestCase
     {
         $itemA = $this->createMockItem(sku: 'A', price: 50.0);
 
-        $pricingRuleA1 = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
-        $pricingRuleA2 = $this->createMockPricingRule(item: $itemA, count: 2, price: 90.0);
+        $pricingRuleA1 = $this->createMockPricingRule('A', count: 3, price: 130.0);
+        $pricingRuleA2 = $this->createMockPricingRule('A', count: 2, price: 90.0);
 
         $checkOut = new CheckOut($pricingRuleA1, $pricingRuleA2);
         $checkOut
@@ -126,8 +126,8 @@ class CheckOutTest extends TestCase
     {
         $itemA = $this->createMockItem(sku: 'A', price: 50.0);
 
-        $pricingRuleA1 = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
-        $pricingRuleA2 = $this->createMockPricingRule(item: $itemA, count: 2, price: 90.0);
+        $pricingRuleA1 = $this->createMockPricingRule('A', count: 3, price: 130.0);
+        $pricingRuleA2 = $this->createMockPricingRule('A', count: 2, price: 90.0);
 
         $checkOut = new CheckOut($pricingRuleA1, $pricingRuleA2);
         $checkOut
@@ -146,8 +146,8 @@ class CheckOutTest extends TestCase
     {
         $itemA = $this->createMockItem(sku: 'A', price: 50.0);
 
-        $pricingRuleA1 = $this->createMockPricingRule(item: $itemA, count: 3, price: 130.0);
-        $pricingRuleA2 = $this->createMockPricingRule(item: $itemA, count: 3, price: 90.0);
+        $pricingRuleA1 = $this->createMockPricingRule('A', count: 3, price: 130.0);
+        $pricingRuleA2 = $this->createMockPricingRule('A', count: 3, price: 90.0);
 
         $this->expectException(DuplicateRulesException::class);
         $this->expectExceptionMessage(sprintf(
@@ -168,10 +168,10 @@ class CheckOutTest extends TestCase
         return $item;
     }
 
-    private function createMockPricingRule(Item $item, int $count, float $price): MockObject|PricingRule
+    private function createMockPricingRule(string $sku, int $count, float $price): MockObject|PricingRule
     {
         $pricingRule = $this->createMock(PricingRule::class);
-        $pricingRule->method('getItem')->willReturn($item);
+        $pricingRule->method('getSku')->willReturn($sku);
         $pricingRule->method('getCount')->willReturn($count);
         $pricingRule->method('getPrice')->willReturn($price);
 

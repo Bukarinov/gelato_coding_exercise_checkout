@@ -5,14 +5,14 @@ namespace Catalog\Domain;
 class PricingRule
 {
     public function __construct(
-        private Item $item,
+        private string $sku,
         private int $count,
         private float $price,
     ) {}
 
-    public function getItem(): Item
+    public function getSku(): string
     {
-        return $this->item;
+        return $this->sku;
     }
 
     public function getCount(): int

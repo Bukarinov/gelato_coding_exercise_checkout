@@ -65,11 +65,11 @@ class CheckOut
         $pricingRulesHashMap = [];
 
         foreach ($pricingRules as $pricingRule) {
-            $sku = $pricingRule->getItem()->getSku();
+            $sku = $pricingRule->getSku();
             $count = $pricingRule->getCount();
 
             if (isset($pricingRulesHashMap[$sku][$count])) {
-                throw new DuplicateRulesException($sku, $count);
+                throw new DuplicateRulesException($pricingRule);
             }
 
             $pricingRulesHashMap[$sku][$count] = $pricingRule;

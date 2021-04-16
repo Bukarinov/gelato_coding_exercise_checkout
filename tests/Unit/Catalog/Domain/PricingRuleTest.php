@@ -8,10 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class PricingRuleTest extends TestCase
 {
-    public function test_GivenItemAndCountAndPrice_ObjectIsCreatedSuccessfully()
+    public function test_GivenSkuAndCountAndPrice_ObjectIsCreatedSuccessfully()
     {
-        $item = $this->createMock(Item::class);
-        $pricingRule = new PricingRule(item: $item, count: 2, price: 42.0);
+        $pricingRule = new PricingRule(sku: 'A', count: 2, price: 42.0);
 
         $this->assertInstanceOf(
             PricingRule::class,
@@ -19,8 +18,8 @@ class PricingRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            $item,
-            $pricingRule->getItem()
+            'A',
+            $pricingRule->getSku()
         );
 
         $this->assertEquals(
@@ -41,19 +40,15 @@ class PricingRuleTest extends TestCase
         new PricingRule();
     }
 
-    public function test_GivenItemOnly_ThrownException()
+    public function test_GivenSkuOnly_ThrownException()
     {
-        $item = $this->createMock(Item::class);
-
         $this->expectException(\ArgumentCountError::class);
 
-        new PricingRule(item: $item);
+        new PricingRule(sku: 'A');
     }
 
     public function test_GivenCountOnly_ThrownException()
     {
-        $item = $this->createMock(Item::class);
-
         $this->expectException(\ArgumentCountError::class);
 
         new PricingRule(count: 2);
@@ -61,8 +56,6 @@ class PricingRuleTest extends TestCase
 
     public function test_GivenPriceOnly_ThrownException()
     {
-        $item = $this->createMock(Item::class);
-
         $this->expectException(\ArgumentCountError::class);
 
         new PricingRule(price: 42.0);
